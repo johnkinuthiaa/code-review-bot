@@ -8,5 +8,6 @@ public interface UserService {
     UserDto findUserById(Long userId);
     UserDto deleteUserById(Long userId);
     UserDto updateUserById(Long userId,Users users);
+    UserDto login(Users loginDetails);
 
 }

@@ -48,8 +48,7 @@ public class AiServiceImpl implements AiService {
                 and what it does checking whether it was written by a senior developer,junior developer or an ai system
                 by analysing the contents of the code and how it can be improved to look like a senior devs code.
                 and it returns jsx with tailwind code in the
-                
-                 please make sure it returns valid jsx container with some tailwind classes that will be embeded onto an existing website
+                 please make sure it returns valid mdx that will be embeded onto an existing website
                  to show the response to the user
                 """
                 ;
