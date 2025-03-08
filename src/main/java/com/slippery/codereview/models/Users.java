@@ -22,4 +22,6 @@ public class Users {
     private String role;
     @Lob
     private List<String> history;
+    private boolean isGuest;
+    private int requestLimits;
 }
