@@ -32,7 +32,7 @@ public class AiServiceImpl implements AiService {
 //        sk-c89b1d03f3b5437c84a25f3525936a44
         try{
             String geminiResponse =webClient.post()
-                    .uri("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyD0IHwnimrFZkuLfbbXcO26dh3dbvkwmCU")
+                    .uri("")
                     .bodyValue(requestBody)
                     .retrieve()
                     .bodyToMono(String.class)
