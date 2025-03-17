@@ -5,6 +5,7 @@ import com.slippery.codereview.dto.AiDto;
 import com.slippery.codereview.dto.AiRequest;
 import com.slippery.codereview.service.AiService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +20,8 @@ public class AiServiceImpl implements AiService {
     public AiServiceImpl(WebClient.Builder webClient) {
         this.webClient = webClient.build();
     }
+    @Value("${gemini_api_key}")
+    private String geminiApiKey;
 
     @Override
     public AiDto createNewAiRequest(AiRequest request)  {
@@ -34,14 +37,13 @@ public class AiServiceImpl implements AiService {
         );
         try{
             String geminiResponse =webClient.post()
-                    .uri("")
+                    .uri(geminiApiKey)
                     .bodyValue(requestBody)
                     .retrieve()
                     .bodyToMono(String.class)
                     .block();
 
             response.setStatusCode(200);
-            log.info(geminiResponse);
             response.setResponse(geminiResponse);
             JsonNode rootNode = objectMapper.readTree(geminiResponse);
             JsonNode candidatesNode = rootNode.path("candidates");
@@ -96,7 +98,21 @@ public class AiServiceImpl implements AiService {
                  1. A clear description of the issue
                  2. A specific suggestion for how to improve it`,
                  
-                 BELOW IS THE CODE YOU ARE TO ANALYZE : please make sure you return valid paragraphs without escape characters
+                 BELOW IS THE CODE YOU ARE TO ANALYZE : please make sure you return valid markdown without escape characters in the following format
+                 # performance issues: 
+                 * issue
+                 * issue
+                 * issue
+                 
+                 # Best practices
+                 *
+                 *
+                 *
+                 # security issues
+                 * issue - explain 
+                 ### suggest ways to fix
+                 if there is a code block in the response,make sure it is formated in this way ```language {the code}```
+            
                 """
                 ;
         return prompt +
